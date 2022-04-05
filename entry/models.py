@@ -4,7 +4,7 @@ from operator import mod
 from unicodedata import name
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 
 
 class fields(models.Model):
@@ -36,6 +36,8 @@ class Question(models.Model):
     guide=models.ForeignKey(User, related_name="guide",on_delete=models.CASCADE)
     time_asked=models.DateTimeField(auto_now_add=True)
     status=models.IntegerField(default=0)
+    class Meta:
+        ordering=['-time_asked']
 
 class usrinfo(models.Model):
     usr=models.OneToOneField(User,primary_key=True,on_delete=models.CASCADE)
@@ -50,5 +52,6 @@ class usrinfo(models.Model):
     questions_asked=models.ManyToManyField(Question,related_name="questions_asked")
     guide_connectmode=models.IntegerField(default=0)
     guidee_availablemode=models.IntegerField(default=0)
+    guide_lastgdelstseen=models.DateTimeField(default=timezone.now())
     def __str__(self):
         return str(self.usr)

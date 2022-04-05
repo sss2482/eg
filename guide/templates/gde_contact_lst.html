@@ -20,6 +20,9 @@
         <div class="show_options">
             <a href="/guide/{{fd}}/guidees_contacted?show=not seen"><u>Not seen</u> </a>
             <a href="/guide/{{fd}}/guidees_contacted?show=all"><u>All</u></a>
+            {% if new %}
+            <a href="/guide/{{fd}}/guidees_contacted?show=new"><u>New</u></a>
+            {% endif %}
         </div>
         <hr>
         <div >
@@ -40,8 +43,6 @@
                 {%endfor%}                
             </table>
             <hr>
-
         </div>
     </body>
-
     </html>
