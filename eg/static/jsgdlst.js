@@ -1,0 +1,3 @@
+function sbmtqf(){
+    window.open("/");
+}

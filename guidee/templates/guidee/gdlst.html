@@ -1,0 +1,48 @@
+{%load static%}
+<Doctype! html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{%static 'stgdlst.css'%}" type="text/css">
+        <title>List of Guides</title>
+    </head>
+
+    <body>
+        <div class="top">
+            <a href="{% url 'home' %}" >Home</a>
+            <a href="{% url 'logout'%}">Logout</a>
+        </div>
+        <div class="header">
+        <h1 class="field">{{fd}} </h1>
+        <br>
+        <h2 class="guides"> Guides </h2>
+        </div>
+        <hr>
+        <div >
+            <form action="" method="post" novalidate>
+            <table class="list">
+                <tr class="row">
+                    <th class="name">Name</th>
+                    <th class="level">Level</th>
+                    <th class="Qual">Qualification</th>
+                    <th class="rating">Rating</th>
+                </tr>
+                {%for gd in gds%}
+                <tr>
+                    <td class="name"><a href="../{{fd}}/{{gd}}">{{gd}}</a></td>
+                    <td>{{gd.level}}</td>
+                    <td class="Qual">B.tech IIT</td>
+                    <td>{{gd.rating}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+            {% csrf_token %}
+            </form>
+            <hr>
+
+        </div>
+        <Script src= "{% static 'jslog.js' %}"></Script>
+    </body>
+
+    </html>

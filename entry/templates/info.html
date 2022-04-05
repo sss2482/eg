@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info</title>
+</head>
+<body>
+    <p>Hello {{usr}}</p>
+    {%if ch%}
+    <form method="post" enctype="multipart/form-data"  novalidate>
+        {{form.as_p}}
+        <br>
+        <input type="submit">
+        <input type="hidden" name="next" value="{{ next }}" />
+        {%csrf_token%}
+    </form>
+    {%else%}
+    <form method="post" enctype="multipart/form-data" novalidate>
+        <p>
+            <label for="id_fd">Field</label>
+            <select name="fd" required id="id_fd" multiple>
+                {%for fd in fds%}
+                <option value='{{fd}}'>{{fd}}</option>
+                {%endfor%}
+            </select>
+            <input type="text" name="issuedby" maxlength="500" id="id_issuedby" placeholder="issuedby">
+            <label for="id_certificate">Certificate</label>
+            <input name="certificate" type="file" id="id_certificate">
+        </p>
+        <input type="submit" name="save" id="save" value="save">
+        <input type="submit" name="save_2" id="save_2" value="save & upload another">
+        {%csrf_token%}
+    </form>
+    {%endif%}
+
+</body>
+</html>

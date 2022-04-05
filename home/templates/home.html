@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h4>Hello {{user.username}}, <a href="../registration/logout/">logout</a></h4>
+    <h2> Fields needed</h2>
+    {% for fd in fdsneeded %}
+        <li><a href="guidee/{{fd.name}}/guidelist">{{fd.name}}</a></li>
+    {%endfor%}
+    <h2>Fields guiding</h2>
+    {% for fd in fdsexpert %}
+        <li><a href="guide/{{fd.name}}/guidees_contacted?show=not seen">{{fd.name}}</a></li>
+    {%endfor%}
+    
+</body>
+</html>

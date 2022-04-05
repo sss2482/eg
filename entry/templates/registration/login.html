@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>login</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <form method="post" novalidate>
+            <input type="text" id="usn" name="username" placeholder="Username">
+            <input type="password" id="pword" name="password" placeholder="Password">
+            <br>
+            <input type="submit" value="login">
+            <input type="hidden" name="next" value="{{ next }}" />
+            {%csrf_token%}
+        </form>
+        <a href="../register" >Create account</a>
+    </body>
+</html>
