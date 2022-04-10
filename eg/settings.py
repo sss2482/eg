@@ -34,6 +34,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'chat.apps.ChatConfig',
     'guide.apps.GuideConfig',
     'guidee.apps.GuideeConfig',
     'home.apps.HomeConfig',
@@ -75,6 +77,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'eg.wsgi.application'
+
+ASGI_APPLICATION= 'eg.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database

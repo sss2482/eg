@@ -26,6 +26,7 @@ urlpatterns = [
     path('registration/',include('entry.urls')),
     path('guidee/',include('guidee.urls')),
     path('guide/',include('guide.urls')),
+    path('chat/',include('chat.urls')),
     path('',home, name='home'),
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -46,7 +46,7 @@
                 <p>Question:-<br><br>{{ques}}</p>
             </div>
             <div class="cnct">
-                <button type="button" value="Chat" class="btn btnch">Chat</button>
+                <button type="button" value="Chat" id="chat"  class="btn btnch" onclick=chat()>Chat</button>
                 <button type="button" value="Audio Call" class="btn btnac">Audio Call</button>
                 <button type="button" value="Video Call" class="btn btnvc">Video Call</button>
             </div>
@@ -69,6 +69,7 @@
             <div class="revs revn">Huzefa:-</div>
             <div class="revs revl"><label>He will listen properly to whatever said</label></div>
         </div>
+        {{ gde.username|json_script:'gde'}}
         <script src="{% static 'jsgdeprofile.js'%}"></script>
     </body>
 

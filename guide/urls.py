@@ -5,4 +5,5 @@ urlpatterns = [
 
     path('<str:field>/guidees_contacted',gde_cntct_lst,name='gde_contacted'),
     path('<field>/guidee/<guidee>', gdeprofile, name='guidee_profile')
+    
 ]

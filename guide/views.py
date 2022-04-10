@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 from entry.models import usrinfo, fields, Question
+from chat.models import room
 
 
 def gde_cntct_lst(request,field):
@@ -36,15 +37,17 @@ def gde_cntct_lst(request,field):
 
 def gdeprofile(request,field,guidee):
     fd=fields.objects.get(name=field)
-    us=User.objects.get(username=str(request.user))
+    usr_us=User.objects.get(username=str(request.user))
     gde=User.objects.get(username=guidee)
     ques=request.GET.get('ques')
-    Q=Question.objects.get(fd=fd,guide=us,guidee=gde,ques=ques)
+    Q=Question.objects.get(fd=fd,guide=usr_us,guidee=gde,ques=ques)
     Q.status=1
     Q.save()
     print(Q)
     return render(request,'gdeprofile.html',{'ques':ques,'gde':gde})
     
+
+
 
     
     
