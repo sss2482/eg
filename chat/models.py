@@ -11,6 +11,7 @@ class message(models.Model):
     mssg=models.CharField(max_length=5000)
     sender=models.ForeignKey(User,on_delete=models.CASCADE,related_name="sender")
     receiver=models.ForeignKey(User, on_delete=models.CASCADE,related_name="receiver")
+    status=models.CharField(max_length=4)
     time_send=models.DateTimeField(auto_now_add=True)
     time_received=models.DateTimeField(auto_now=True)
 

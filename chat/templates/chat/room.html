@@ -12,6 +12,7 @@
     </textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
+    {{ user_role|json_script:"user_role"}}
     {{ other_usr| json_script:"o_u" }}
     {{ room.room_name|json_script:"room-name" }}
     {{ user.username|json_script:"username" }}
@@ -46,6 +47,7 @@
             const messageInputDom = document.querySelector('#chat-message-input');
             const usrname=JSON.parse(document.getElementById('username').textContent)
             const receiver=JSON.parse(document.getElementById('o_u').textContent)
+            const user_role=JSON.parse(document.getElementById('user_role').textContent)
             const message = messageInputDom.value
             const overall_message= message+"  -- "+usrname;
 
@@ -53,6 +55,7 @@
                 'overall_message': overall_message,
                 'message': message,
                 'receiver': receiver,
+                'user_role':user_role,
             }));
             messageInputDom.value = '';
         };

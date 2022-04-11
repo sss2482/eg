@@ -6,6 +6,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from chat.models import room
+
 
 class fields(models.Model):
     name=models.CharField(max_length=200,primary_key=True)
@@ -53,5 +55,7 @@ class usrinfo(models.Model):
     guide_connectmode=models.IntegerField(default=0)
     guidee_availablemode=models.IntegerField(default=0)
     guide_lastgdelstseen=models.DateTimeField(default=timezone.now())
+    guide_rooms=models.ManyToManyField(room, blank=True,related_name="guide_rooms")
+    guidee_rooms=models.ManyToManyField(room, blank=True,related_name="guidee_rooms")
     def __str__(self):
         return str(self.usr)

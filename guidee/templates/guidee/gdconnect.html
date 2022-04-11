@@ -63,9 +63,13 @@
                     <span>Connect mode :- Ready to contact </span>
                     {%endif%}
                 </div>
-                <button type="button" value="Chat" class="btn btnch">Chat</button>
+                <button type="button" value="Chat" class="btn btnch" onclick=chat()>Chat</button>
                 <button type="button" value="Audio Call" class="btn btnac">Audio Call</button>
                 <button type="button" value="Video Call" class="btn btnvc">Video Call</button>
             </div>
+            {{ gd.guide_connectmode|json_script:"c_m" }}
+            {{ gd.usr.username|json_script:"gd" }}
+
+            <script src="{%static 'jsgdconnect.js'%}"></script>
     </body>
 </html>
