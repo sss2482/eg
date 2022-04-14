@@ -40,7 +40,7 @@ th , td {
 h1 , h2 {
     text-align: center;
 }
-.guides , .field{
+.guides , .field, .cnctlstheader{
     padding: 0%;
 }
 .field {

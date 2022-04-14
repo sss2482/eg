@@ -12,6 +12,13 @@ def home(request):
     usr=request.user
     us=User.objects.get(username=str(usr))
     usinf=usrinfo.objects.get(usr=us)
+    if request.method=='POST':
+        if 'ch_connectmode' in request.POST:
+            if usinf.guide_connectmode==0:
+                usinf.guide_connectmode=1
+            elif usinf.guide_connectmode==1:
+                usinf.guide_connectmode=0
+            usinf.save()
     fdsneeded=usinf.fdsneeded.all()
     fdsexpert=usinf.fdsexpert.all()
     notseengderms = []
@@ -22,8 +29,9 @@ def home(request):
                 print(mssg.mssg, mssg.status)
                 notseengderms +=[rm]
                 break
+    
             
 
     print(notseengderms)        
-    return render(request,'home.html',{'fdsneeded':fdsneeded,'fdsexpert':fdsexpert,'notseengderms':notseengderms})
+    return render(request,'home.html',{'fdsneeded':fdsneeded,'fdsexpert':fdsexpert,'notseengderms':notseengderms, 'usr':usinf})
 

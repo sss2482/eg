@@ -46,22 +46,20 @@
             <div class="cnct">
                 <div class="cncti cnctm">
                     {% if gd.guide_connectmode == 0 %}
-                    {% if not connect_asked %}
                     <span>Connect mode :- Not ready to contact </span>
-                    <form action="" method="post">
-                    <input type="submit" value="connect" name="connect">
-                    {%csrf_token%}
-                    </form>
-                    {%else%}
-                    <span>Connect mode :- Not ready to contact </span>
-                    <form action="" method="post">
-                    <input type="submit" value="disconnect" name="disconnect">
-                    {%csrf_token%}
-                    </form>
-                    {%endif%}
                     {%else%}
                     <span>Connect mode :- Ready to contact </span>
                     {%endif%}
+                    <form action="" method="post">
+                    {% if not ques_sent %}
+                    <input type="submit" value="send question" name="sending_ques">
+                    {%csrf_token%}
+                    {%else%}
+                    <input type="submit" value="unsend question" name="unsending_ques">
+                    {%csrf_token%}
+                    </form>
+                    {%endif%}
+                    
                 </div>
                 <button type="button" value="Chat" class="btn btnch" onclick=chat()>Chat</button>
                 <button type="button" value="Audio Call" class="btn btnac">Audio Call</button>

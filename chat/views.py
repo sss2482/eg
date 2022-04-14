@@ -6,6 +6,7 @@ from .models import room
 
 
 def rm(request, other_usr):
+    print(other_usr)
     if request.GET.get('requestfrom')=="guide":
         gd=User.objects.get(username=str(request.user))
         gde=User.objects.get(username=str(other_usr))
@@ -26,7 +27,7 @@ def rm(request, other_usr):
         gde.save()
     
     for mssg in rm.messages.all():
-        if mssg.status =="gd1":
+        if mssg.status == "gd1":
             mssg.status="gd2"
             mssg.save()
     

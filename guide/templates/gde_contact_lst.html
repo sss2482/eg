@@ -23,6 +23,7 @@
             {% if new %}
             <a href="/guide/{{fd}}/guidees_contacted?show=new"><u>New</u></a>
             {% endif %}
+            <a href="/guide/{{fd}}/guidees_contacted?show=chat_gde"><u>Chatted guidees</u></a>
         </div>
         <hr>
         <div >
@@ -32,6 +33,14 @@
                     <th class="name">Name</th>
                     <th class="rating">Rating</th>
                 </tr>
+                {% if type == 'chat' %}
+                {% for gde in gde_lst %}
+                <tr class="r">
+                    <td class="name"><a href="/chat/{{gde}}?requestfrom=guide" class="a" >{{gde.username}}</a></td>
+                    <td>{{gde.usrinfo.guidee_rating}}</td>
+                </tr>
+                {%endfor%}
+                {% elif type == 'ques' %}
                 {%for ques in questions%}
                 <tr class="r">
                     <td class="name"><a href="../{{fd}}/guidee/{{ques.guidee}}?ques={{ques.ques}}" class="a" >{{ques.guidee}}</a></td>
@@ -40,7 +49,8 @@
                 <tr class="rq">
                     <td colspan="2">{{ques.ques}}</td>
                 </tr>
-                {%endfor%}                
+                {%endfor%}
+                {% endif %}                
             </table>
             <hr>
         </div>

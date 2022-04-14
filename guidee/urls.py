@@ -1,8 +1,9 @@
 from django.urls import path, include
 
-from .views import fdgdlst, gdprofile
+from .views import gdlst, gdprofile
 
 urlpatterns=[
-    path('<str:field>/guidelist',fdgdlst, name='gdlst'),
+    path('<str:field>/guidelist',gdlst, name='gdlst'),
+    path('guidecontactlist',gdlst, name="gdcontactlst"),
     path('<str:field>/<str:guide>', gdprofile, name='gdprofile'),
 ]

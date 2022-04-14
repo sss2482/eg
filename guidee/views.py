@@ -5,12 +5,19 @@ from django.shortcuts import redirect, render
 
 from entry.models import fields,usrinfo, Question
 from django.contrib.auth.models import User
-def fdgdlst(request,field):
-    fd=fields.objects.get(name=field)
-    gds=[]
-    for gd_us in fd.guides.all() :
-        gds+=[usrinfo.objects.get(usr=gd_us)]
-    return render(request,'guidee/gdlst.html',{'gds':gds,'usrinfo':usrinfo,'fd':fd})
+def gdlst(request,field=None):
+    if field==None:
+        us=User.objects.get(username=str(request.user))
+        gds=[]
+        for rm in us.usrinfo.guidee_rooms.all():
+            gds+=[rm.guide]
+        lst_type="contact_lst"
+        return render(request,'guidee/gdlst.html',{'gds':gds,'usrinfo':usrinfo,'type':lst_type})
+    else:        
+        fd=fields.objects.get(name=field)
+        gds=fd.guides.all()
+        lst_type="fd_gd_lst"
+        return render(request,'guidee/gdlst.html',{'gds':gds,'usrinfo':usrinfo,'fd':fd,'type':lst_type})
 
 def gdprofile(request,field,guide):
     gd_us=User.objects.get(username=guide)
@@ -36,21 +43,21 @@ def gdprofile(request,field,guide):
         if request.GET.get('ques') is not None:
             question=request.GET.get('ques')
             print(question)
-            if 'connect' in request.POST:
+            if 'sending_ques' in request.POST:
                 print(question)
                 Q=Question(ques=question,guide=gd_us,guidee=usr,fd=fd)
                 Q.save()
                 gd.questions_byguidees.add(Q)
                 us=usrinfo.objects.get(usr=usr)
                 us.questions_asked.add(Q)
-                connect_asked=True
-            elif 'disconnect' in request.POST:
+                ques_sent=True
+            elif 'unsending_ques' in request.POST:
                 Q=Question.objects.get(ques=question,fd=fd,guidee=usr,guide=gd_us)
                 us=usrinfo.objects.get(usr=usr)
                 us.questions_asked.remove(Q)
                 Q.delete()
-                connect_asked=False
-            return render(request,'guidee/gdconnect.html',{'ques':question,'gd':gd,'connect_asked':connect_asked})
+                ques_sent=False
+            return render(request,'guidee/gdconnect.html',{'ques':question,'gd':gd,'ques_sent':ques_sent})
 
 
             

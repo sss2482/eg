@@ -5,7 +5,13 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{%static 'stgdlst.css'%}" type="text/css">
-        <title>List of Guides</title>
+        <title>
+            {% if  type == 'fd_gd_lst' %}
+            List of Guides
+            {% elif type == 'contact_lst' %}
+            Guides Contacted
+            {% endif %}
+        </title>
     </head>
 
     <body>
@@ -14,9 +20,13 @@
             <a href="{% url 'logout'%}">Logout</a>
         </div>
         <div class="header">
-        <h1 class="field">{{fd}} </h1>
-        <br>
-        <h2 class="guides"> Guides </h2>
+            {% if  type == 'fd_gd_lst' %}    
+            <h1 class="field">{{fd}} </h1>
+            {% elif type == 'contact_lst' %}
+            <h1 class="cnctlstheader">Guide Contact list</h1>
+            {% endif %}
+            <br>
+            <h2 class="guides"> Guides </h2>
         </div>
         <hr>
         <div >
@@ -30,10 +40,14 @@
                 </tr>
                 {%for gd in gds%}
                 <tr>
+                    {% if  type == 'fd_gd_lst' %}
                     <td class="name"><a href="../{{fd}}/{{gd}}">{{gd}}</a></td>
-                    <td>{{gd.level}}</td>
+                    {% elif type == 'contact_lst' %}
+                    <td class="name"><a href="{% url 'chat:room' other_usr=gd.username %}?requestfrom=guidee">{{gd}}</a></td>
+                    {% endif %}
+                    <td>{{gd.usrinfo.level}}</td>
                     <td class="Qual">B.tech IIT</td>
-                    <td>{{gd.rating}}</td>
+                    <td>{{gd.usrinfo.guide_rating}}</td>
                 </tr>
                 {%endfor%}
             </table>
