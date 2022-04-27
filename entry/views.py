@@ -9,8 +9,11 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 
+from guide.models import guideinfo
+from guidee.models import guideeinfo
 from .forms import UIform, crtfform
-from .models import usrinfo, fields, Certificates
+from .models import usrinfo, fields 
+from guide.models import Certificate
 
 class sgnup(CreateView):
     form_class=UserCreationForm
@@ -31,17 +34,17 @@ def info(request):
             crtf=request.FILES['certificate']
             fd=fields.objects.get(name=rp['fd'])
             ib=rp['issuedby']  
-            c=Certificates(usr=usr,fd=fd,issuedby=ib,certificate=crtf)
+            c=Certificate(usr=usr,fd=fd,issuedby=ib,certificate=crtf)
             c.save()
-            usr.usrinfo.certificates.add(c)
+            usr.guideinfo.certificates.add(c)
             return HttpResponseRedirect(reverse_lazy('login'))
         elif 'save_2' in rp:
             crtf=request.FILES['certificate']
             fd=fields.objects.get(name=rp['fd'])
             ib=rp['issuedby']
-            c=Certificates(usr=usr,fd=fd,issuedby=ib,certificate=crtf)
+            c=Certificate(usr=usr,fd=fd,issuedby=ib,certificate=crtf)
             c.save()
-            usr.usrinfo.certificates.add(c)
+            usr.guideinfo.certificates.add(c)
         else:        
             UIf=UIform(request.POST,request.FILES)
             if UIf.is_valid():
@@ -49,8 +52,11 @@ def info(request):
                 print(info,1,info['DP'])
                 rgf.save()
                 ui=usrinfo.objects.create(usr=usr,DP=info['DP'])
-                ui.fdsneeded.add(*list(info['fdsneeded']))
-                ui.fdsexpert.add(*list(info['fdsexpert']))
+                gdinf=guideinfo.objects.create(usr=usr)
+                gdeinf=guideeinfo.objects.create(usr=usr)
+                gdeinf.fds.add(*list(info['fdsneeded']))
+                gdinf.fds.add(*list(info['fdsexpert']))
+                usr.save()
                 print(info['fdsneeded'])
                 for fd in list(info['fdsneeded']):
                     uf=fields.objects.get(pk=fd)
@@ -60,8 +66,7 @@ def info(request):
                     uf.guides.add(usri)
         ch=False
         f=crtfform()
-        usinf=usrinfo.objects.get(usr=usr)
-        fds=usinf.fdsexpert.all()
+        fds=usr.guideinfo.fds.all()
         return render(request,'info.html',{'form':f,'usr':str(usri),'ch':ch,'fds':fds})
     else:
         f=UIform()

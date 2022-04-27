@@ -21,9 +21,9 @@ def rm(request, other_usr):
     except:
         room_name=str(gd.username)+"_"+str(gde.username)
         rm=room.objects.create(guide=gd,guidee=gde,room_name=room_name)
-        gd.usrinfo.guide_rooms.add(rm)
+        gd.guideinfo.guide_rooms.add(rm)
         gd.save()
-        gde.usrinfo.guidee_rooms.add(rm)
+        gde.guideeinfo.guidee_rooms.add(rm)
         gde.save()
     
     for mssg in rm.messages.all():

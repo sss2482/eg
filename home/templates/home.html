@@ -36,9 +36,9 @@
         Connect mode:
         <form action="" method="post">
             
-            {% if usr.guide_connectmode == 0 %}
+            {% if usr.guideinfo.connectmode == 0 %}
             <input type="submit" name="ch_connectmode" value="on">
-            {% elif usr.guide_connectmode == 1 %}
+            {% elif usr.guideinfo.connectmode == 1 %}
             <input type="submit" name="ch_connectmode" value="off">
             {% endif %}
             {% csrf_token %}

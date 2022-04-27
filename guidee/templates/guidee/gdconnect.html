@@ -45,7 +45,7 @@
             </div>
             <div class="cnct">
                 <div class="cncti cnctm">
-                    {% if gd.guide_connectmode == 0 %}
+                    {% if gd.guideinfo.connectmode == 0 %}
                     <span>Connect mode :- Not ready to contact </span>
                     {%else%}
                     <span>Connect mode :- Ready to contact </span>
@@ -65,8 +65,8 @@
                 <button type="button" value="Audio Call" class="btn btnac">Audio Call</button>
                 <button type="button" value="Video Call" class="btn btnvc">Video Call</button>
             </div>
-            {{ gd.guide_connectmode|json_script:"c_m" }}
-            {{ gd.usr.username|json_script:"gd" }}
+            {{ gd.guideinfo.connectmode|json_script:"c_m" }}
+            {{ gd.username|json_script:"gd" }}
 
             <script src="{%static 'jsgdconnect.js'%}"></script>
     </body>

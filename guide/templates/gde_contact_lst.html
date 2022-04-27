@@ -37,20 +37,20 @@
                 {% for gde in gde_lst %}
                 <tr class="r">
                     <td class="name"><a href="/chat/{{gde}}?requestfrom=guide" class="a" >{{gde.username}}</a></td>
-                    <td>{{gde.usrinfo.guidee_rating}}</td>
+                    <td>{{gde.guideeinfo.rating}}</td>
                 </tr>
                 {%endfor%}
                 {% elif type == 'ques' %}
                 {%for ques in questions%}
                 <tr class="r">
                     <td class="name"><a href="../{{fd}}/guidee/{{ques.guidee}}?ques={{ques.ques}}" class="a" >{{ques.guidee}}</a></td>
-                    <td>{{ques.guidee.usrinfo.guidee_rating}}</td>
+                    <td>{{ques.guidee.guideeinfo.rating}}</td>
                 </tr>
                 <tr class="rq">
                     <td colspan="2">{{ques.ques}}</td>
                 </tr>
                 {%endfor%}
-                {% endif %}                
+                {% endif %}          
             </table>
             <hr>
         </div>

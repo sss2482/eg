@@ -20,13 +20,13 @@
                 {% endfor %}
             </div>
             <div class="column prof">
-                <img src="{{gd.DP.url}}" ,alt="profile pic" width="200px"
+                <img src="{{gd.usrinfo.DP.url}}" ,alt="profile pic" width="200px"
                     height="100px">
                 <p class="name">Name</p>
             </div>
             <div class="column perf">
                 <p class="pd">
-                   Level :- {{gd.level}}<br> Rating :- {{gd.rating}}
+                   Level :- {{gd.guideinfo.level}}<br> Rating :- {{gd.guideinfo.rating}}
                 </p>
 
             </div>
@@ -48,20 +48,29 @@
         </div>
         <div style="clear:both"><br><hr></div>
         <div class="btm">
+            <div style="float: right;">  
+                <form action="" method="post">
+                <input type="submit" value="rate" name="rate">
+                <input type="text" name="rating">
+                {%csrf_token%}
+                </form>
+            </div>
             <div >Review:-
             </div>
-            <div><textarea class="rev" cols="400" rows="2"></textarea></div>
+            <form action="" method="post" >
+            <div>
+                <textarea name="rvw" cols="200" rows="3" required="" id="id_rvw" placeholder="Your Review"></textarea>
+                <input type="submit" value="post" name="rvw_post" >
+            </div>
+            {%csrf_token%}
+            </form>
             <button type="button" onclick=shrevs() >Show all reviews</button>
         </div>
         <div id="rvs">
-            <div class="revs revl">Vilok:-</div>
-            <div class="revs revl"><label>Best guidance I got</label></div>
-            <div class="revs revl">Vilok:-</div>
-            <div class="revs revl"><label>Best guidance I got</label></div>
-            <div class="revs revl">Vilok:-</div>
-            <div class="revs revl"><label>Best guidance I got</label></div>
-            <div class="revs revl">Vilok:-</div>
-            <div class="revs revl"><label>Best guidance I got</label></div>
+            {% for rvw in gd.guideinfo.rvws_received.all %}
+            <div class="revs revl">{{rvw.gde}}:-</div>
+            <div class="revs revl"><label>{{rvw.rvw}}</label></div>
+            {%endfor%}
         </div>
             
         </div>

@@ -18,7 +18,7 @@
             <div class="column cert">
                 <p class="left">Details:- <br><br> Qualifications:- <br>
                     <br> Interested fields:-
-                    {% for fd in gde.usrinfo.fdsneeded.all%}
+                    {% for fd in gde.guideeinfo.fds.all%}
                     {{fd}} <br>
                     {%endfor%}
                 </p>
@@ -30,7 +30,7 @@
             </div>
             <div class="column perf">
                 <p class="pd">
-                    Rating :- {{gde.usrinfo.guidee_rating}}
+                    Rating :- {{gde.guideeinfo.rating}}
                 </p>
 
             </div>
@@ -54,20 +54,29 @@
         </div>
         <div style="clear:both"><br><hr></div>
         <div class="btm">
+            <div style="float: right;">  
+                <form action="" method="post">
+                <input type="submit" value="rate" name="rate">
+                <input type="text" name="rating">
+                {%csrf_token%}
+                </form>
+            </div>
             <div >Review:-
             </div>
-            <div><textarea class="rev" cols="400" rows="2"></textarea></div>
+            <div>
+                <form action="" method="post">
+                <textarea class="rev" cols="200" rows="2" name="rvw"></textarea>
+                <input type="submit" value="post" name="rvw_post" >
+                {%csrf_token%}
+                </form>
+            </div>
             <button type="button" onclick=shrevs() >Show all reviews</button>
         </div>
         <div id="rvs">
-            <div class="revs revl">Huzefa:-</div>
-            <div class="revs revl"><label>He will listen properly to whatever said</label></div>
-            <div class="revs revn">Huzefa:-</div>
-            <div class="revs revl"><label>He will listen properly to whatever said</label></div>
-            <div class="revs revn">Huzefa:-</div>
-            <div class="revs revl"><label>He will listen properly to whatever said</label></div>
-            <div class="revs revn">Huzefa:-</div>
-            <div class="revs revl"><label>He will listen properly to whatever said</label></div>
+            {% for rvw in rvws %}
+            <div class="revs revl">{{rvw.gd}}</div>
+            <div class="revs revl"><label>{{rvw.rvw}}</label></div>
+            {%endfor%}
         </div>
         {{ gde.username|json_script:'gde'}}
         <script src="{% static 'jsgdeprofile.js'%}"></script>

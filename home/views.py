@@ -9,21 +9,21 @@ from django.contrib.auth.models import User
 
 
 def home(request):
-    usr=request.user
-    us=User.objects.get(username=str(usr))
-    usinf=usrinfo.objects.get(usr=us)
+    us=request.user
+    usr=User.objects.get(username=str(us))
     if request.method=='POST':
         if 'ch_connectmode' in request.POST:
-            if usinf.guide_connectmode==0:
-                usinf.guide_connectmode=1
-            elif usinf.guide_connectmode==1:
-                usinf.guide_connectmode=0
-            usinf.save()
-    fdsneeded=usinf.fdsneeded.all()
-    fdsexpert=usinf.fdsexpert.all()
+            if usr.guideinfo.connectmode==0:
+                usr.guideinfo.connectmode=1
+            elif usr.guideinfo.connectmode==1:
+                usr.guideinfo.connectmode=0
+            usr.guideinfo.save()
+    fdsneeded=usr.guideeinfo.fds.all()
+    fdsexpert=usr.guideinfo.fds.all()
     notseengderms = []
-    for rm in us.usrinfo.guidee_rooms.all():
+    for rm in usr.guideeinfo.guidee_rooms.all():
         for mssg in rm.messages.all():
+            print(mssg.status)
             if mssg.status=="gd1":
                 print(rm)
                 print(mssg.mssg, mssg.status)
@@ -33,5 +33,5 @@ def home(request):
             
 
     print(notseengderms)        
-    return render(request,'home.html',{'fdsneeded':fdsneeded,'fdsexpert':fdsexpert,'notseengderms':notseengderms, 'usr':usinf})
+    return render(request,'home.html',{'fdsneeded':fdsneeded,'fdsexpert':fdsexpert,'notseengderms':notseengderms, 'usr':usr})
 

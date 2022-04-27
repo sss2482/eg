@@ -5,7 +5,8 @@ from turtle import fd
 from django import forms
 from django.forms import ModelForm 
 
-from .models import fields as fds, Certificates
+from .models import fields as fds
+from guide.models import Certificate
 
 from .models import usrinfo
 class UIform(forms.Form):
@@ -14,7 +15,7 @@ class UIform(forms.Form):
     fdsexpert=forms.ModelMultipleChoiceField(queryset=fds.objects.all(),label='Fields in which you are expert')
 class crtfform(forms.Form):
     class Meta:
-        model=Certificates
+        model=Certificate
         fields=['fd','issuedby','certificate']
     
     

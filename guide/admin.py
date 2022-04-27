@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Certificate, guideinfo
+
+admin.site.register(Certificate)
+admin.site.register(guideinfo)

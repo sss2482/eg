@@ -5,8 +5,8 @@ from unicodedata import name
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
 
-from chat.models import room
 
 
 class fields(models.Model):
@@ -15,21 +15,12 @@ class fields(models.Model):
     guidees=models.ManyToManyField(User,related_name='guidees',blank=True)
     def __str__(self):
         return str(self.name)
-def user_directory_path(instance, filename):
-    ext=filename.split('.')[-1]
-    return '{0}/{1}/{2}'.format(instance.usr.id,'Certificates',filename)
+
 def image_path(instance,filename):
     ext= filename.split('.')[-1]
     filename='{}.{}'.format(str(instance.usr.id)+str('_dp'),ext)
     return '{0}/{1}/{2}'.format(instance.usr.id,'DP',filename)
 
-class Certificates(models.Model):
-    fd=models.ForeignKey(fields,on_delete=models.CASCADE)
-    usr=models.ForeignKey(User,on_delete=models.CASCADE)
-    issuedby=models.CharField(max_length=500,blank=True)
-    certificate=models.FileField(upload_to=user_directory_path,blank=True)
-    def __str__(self):
-        return str(self.usr)+"_"+str(self.fd)
 
 class Question(models.Model):
     ques=models.TextField()
@@ -41,21 +32,24 @@ class Question(models.Model):
     class Meta:
         ordering=['-time_asked']
 
+class Review(models.Model):
+    rvw=models.TextField()
+    gd=models.ForeignKey(User, related_name="rvw_guides", on_delete=models.CASCADE)
+    gde=models.ForeignKey(User, related_name="rvw_guidees", on_delete=models.CASCADE)
+    time_sent=models.DateTimeField(auto_now_add=True)
+    status=models.CharField(max_length=15,default="gde_gd")
+
+class Rating(models.Model):
+    value=models.FloatField(validators=[MinValueValidator(0.0),MaxValueValidator(5.0)],)
+    gd=models.ForeignKey(User, related_name="rating_guides", on_delete=models.CASCADE)
+    gde=models.ForeignKey(User, related_name="rating_guidees", on_delete=models.CASCADE)
+    status=models.CharField(max_length=15,default='gde_gd')
+    time_rated=models.DateTimeField(auto_now=True)
+
+
 class usrinfo(models.Model):
     usr=models.OneToOneField(User,primary_key=True,on_delete=models.CASCADE)
-    fdsneeded=models.ManyToManyField(fields,related_name='interested_fields')
-    fdsexpert=models.ManyToManyField(fields,related_name='expertise_fields')
-    guide_rating=models.FloatField(default=0.0)
-    guidee_rating=models.FloatField(default=0.0)
-    level=models.IntegerField(default=0)
-    certificates=models.ManyToManyField(Certificates,blank=True)
     DP=models.ImageField(upload_to=image_path,blank=True)
-    questions_byguidees=models.ManyToManyField(Question,related_name='questions_byguidees')
-    questions_asked=models.ManyToManyField(Question,related_name="questions_asked")
-    guide_connectmode=models.IntegerField(default=0)
-    guidee_availablemode=models.IntegerField(default=0)
-    guide_lastgdelstseen=models.DateTimeField(default=timezone.now())
-    guide_rooms=models.ManyToManyField(room, blank=True,related_name="guide_rooms")
-    guidee_rooms=models.ManyToManyField(room, blank=True,related_name="guidee_rooms")
+    
     def __str__(self):
         return str(self.usr)

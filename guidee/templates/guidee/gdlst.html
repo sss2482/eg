@@ -45,9 +45,9 @@
                     {% elif type == 'contact_lst' %}
                     <td class="name"><a href="{% url 'chat:room' other_usr=gd.username %}?requestfrom=guidee">{{gd}}</a></td>
                     {% endif %}
-                    <td>{{gd.usrinfo.level}}</td>
+                    <td>{{gd.guideinfo.level}}</td>
                     <td class="Qual">B.tech IIT</td>
-                    <td>{{gd.usrinfo.guide_rating}}</td>
+                    <td>{{gd.guideinfo.rating}}</td>
                 </tr>
                 {%endfor%}
             </table>
