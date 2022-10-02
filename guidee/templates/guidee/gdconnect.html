@@ -18,30 +18,13 @@
         </div>
         <div class= "qac">
             <div class="qa">
+                {% for q in related_ques %}
                 <div class=" qai qa1">
-                    <p class="q">Question</p>
-                    <p class="a">Answer</p>
+                    <p class="q">{{q.ques}}</p>
+                    <p class="a">{{q.ans}}</p>
                 </div>
-                <div class=" qai qa2">
-                    <p class="q">Question</p>
-                    <p class="a">Answer</p>
-                </div>
-                <div class=" qai qa3">
-                    <p class="q">Question</p>
-                    <p class="a">Answer</p>
-                </div>
-                <div class=" qai qa4">
-                    <p class="q">Question</p>
-                    <p class="a">Answer</p>
-                </div>
-                <div class=" qai qa5">
-                    <p class="q">Question</p>
-                    <p class="a">Answer</p>
-                </div>
-                <div class=" qai qa6">
-                    <p class="q">Question</p>
-                    <p class="a">Answer</p>
-                </div>
+                {% endfor %}
+                
             </div>
             <div class="cnct">
                 <div class="cncti cnctm">
@@ -67,6 +50,8 @@
             </div>
             {{ gd.guideinfo.connectmode|json_script:"c_m" }}
             {{ gd.username|json_script:"gd" }}
+            {{ fd.no|json_script:"fd_no" }}
+            {{ ques.id|json_script:"ques_id" }}
 
             <script src="{%static 'jsgdconnect.js'%}"></script>
     </body>

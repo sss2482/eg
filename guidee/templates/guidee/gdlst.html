@@ -54,9 +54,14 @@
             {% csrf_token %}
             </form>
             <hr>
+            <form>
+                <label class="label">Question:-</label>
+                <textarea class="question" id="ques" cols="400" rows="6" placeholder="Type your question here"></textarea>
+                <input class="sbmtq" type="button" value="submit" onclick=sbmtqs() >
+            </form>
 
         </div>
-        <Script src= "{% static 'jslog.js' %}"></Script>
+        <script src="{% static 'jsgdlst.js' %}"></script>
     </body>
 
     </html>

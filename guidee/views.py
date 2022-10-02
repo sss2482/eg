@@ -4,6 +4,7 @@ from turtle import fd
 from unicodedata import name
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
 
 from entry.models import fields,usrinfo, Question, Review, Rating
 
@@ -14,11 +15,12 @@ from .forms import Rvw_form
 def gdlst(request,field=None):
     if field==None:
         usr=User.objects.get(username=str(request.user))
-        gds=[]
+        rms=[]
         for rm in usr.guideeinfo.guidee_rooms.all():
-            gds+=[rm.guide]
+            if rm.status == "r":
+                rms+=[rm]
         lst_type="contact_lst"
-        return render(request,'guidee/gdlst.html',{'gds':gds,'usrinfo':usrinfo,'type':lst_type})
+        return render(request,'guidee/ongoing_queslst.html',{'rms':rms,'usrinfo':usrinfo,'type':lst_type})
     else:        
         fd=fields.objects.get(name=field)
         print(fd)
@@ -26,6 +28,18 @@ def gdlst(request,field=None):
         print(gds)
         lst_type="fd_gd_lst"
         return render(request,'guidee/gdlst.html',{'gds':gds,'usrinfo':usrinfo,'fd':fd,'type':lst_type})
+
+def r_queslst(request,field=None):
+    fd=fields.objects.get(name=field)
+    question=request.GET.get('ques')
+    r_q= fd.question_set.all().annotate(rank=SearchRank(SearchVector('ques'),SearchQuery(str(question)))).order_by('-rank')
+    related_ques=[]
+    for q in r_q:
+        if q.status==4:
+            related_ques+=[q]
+    return render(request,'guidee/queslst.html',{'ques':question,'fd':fd, 'related_ques':related_ques})
+
+
 
 def gdprofile(request,field,guide):
     gd=User.objects.get(username=guide)
@@ -35,7 +49,13 @@ def gdprofile(request,field,guide):
         if request.GET.get('ques') is not None:
             question=request.GET.get('ques')
             print(question)
-            return render(request,'guidee/gdconnect.html',{'ques':question,'gd':gd,'connect_asked':False})
+            r_q= gd.guideinfo.questions_byguidees.all().annotate(rank=SearchRank(SearchVector('ques'),SearchQuery(str(question)))).order_by('-rank')
+            related_ques=[]
+            for q in r_q:
+                if q.status==4:
+                    related_ques+=[q]
+            print(related_ques)
+            return render(request,'guidee/gdconnect.html',{'ques':question,'gd':gd,'fd':fd, 'connect_asked':False, 'related_ques':related_ques})
         else:
             certs=gd.guideinfo.certificates.all()
             certificates=[]
@@ -63,7 +83,14 @@ def gdprofile(request,field,guide):
                 usr.guideeinfo.questions_asked.remove(Q)
                 Q.delete()
                 ques_sent=False
-            return render(request,'guidee/gdconnect.html',{'ques':question,'gd':gd,'ques_sent':ques_sent})
+            
+            r_q= gd.guideinfo.questions_byguidees.all().annotate(rank=SearchRank(SearchVector('ques'),SearchQuery(str(question)))).order_by('-rank')
+            related_ques=[]
+            for q in r_q:
+                if q.status==4:
+                    related_ques+=[q]
+            print(related_ques)
+            return render(request,'guidee/gdconnect.html',{'ques':question,'gd':gd, 'fd':fd, 'ques_sent':ques_sent,'related_ques':related_ques})
         elif 'rvw_post' in request.POST:
             rvw=request.POST['rvw']
             rvw_object=Review.objects.create(rvw=rvw,gd=gd,gde=usr,status="gde_gd")

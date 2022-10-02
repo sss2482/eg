@@ -22,7 +22,7 @@ def home(request):
     fdsexpert=usr.guideinfo.fds.all()
     notseengderms = []
     for rm in usr.guideeinfo.guidee_rooms.all():
-        for mssg in rm.messages.all():
+        for mssg in rm.message_set.all():
             print(mssg.status)
             if mssg.status=="gd1":
                 print(rm)

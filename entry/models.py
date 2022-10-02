@@ -10,7 +10,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class fields(models.Model):
-    name=models.CharField(max_length=200,primary_key=True)
+    no=models.IntegerField()
+    name=models.CharField(max_length=200, primary_key=True)
     guides=models.ManyToManyField(User,related_name='guides',blank=True)
     guidees=models.ManyToManyField(User,related_name='guidees',blank=True)
     def __str__(self):
@@ -29,6 +30,7 @@ class Question(models.Model):
     guide=models.ForeignKey(User, related_name="guide",on_delete=models.CASCADE)
     time_asked=models.DateTimeField(auto_now_add=True)
     status=models.IntegerField(default=0)
+    ans=models.TextField(blank=True, null=True)
     class Meta:
         ordering=['-time_asked']
 
@@ -50,6 +52,5 @@ class Rating(models.Model):
 class usrinfo(models.Model):
     usr=models.OneToOneField(User,primary_key=True,on_delete=models.CASCADE)
     DP=models.ImageField(upload_to=image_path,blank=True)
-    
     def __str__(self):
         return str(self.usr)

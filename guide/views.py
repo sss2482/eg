@@ -15,10 +15,11 @@ def gde_cntct_lst(request,field):
     show=request.GET.get('show')
     if show=='chat_gde':
         tp='chat'
-        gde_lst=[]
+        rms=[]
         for rm in usr.guideinfo.guide_rooms.all():
-            gde_lst+=[rm.guidee]
-        return render(request,'gde_contact_lst.html',{'fd':fd,'gde_lst':gde_lst,'type':tp})
+            if rm.status=="r":
+                rms+=[rm]
+        return render(request,'gde_contact_lst.html',{'fd':fd,'rms':rms,'type':tp})
     elif show=='not seen':
         tp='ques'
         shl=[0,]
@@ -51,6 +52,7 @@ def gdeprofile(request,field,guidee):
     gde=User.objects.get(username=guidee)
 
     ques=request.GET.get('ques')
+    Q=Question.objects.get(fd=fd,guide=usr,guidee=gde,ques=ques)
     if request.method=='POST':
         if 'rvw' in request.POST:
             rvw=request.POST['rvw']
@@ -88,18 +90,17 @@ def gdeprofile(request,field,guidee):
                 r_object=Rating.objects.create(value=float(r),gd=usr,gde=gde,status='gd_gde')
                 usr.guideinfo.ratings_given.add(r_object)
                 usr.guideinfo.save()
-                gde.guideeinfo.ratings_received.add(r_object)                
+                gde.guideeinfo.ratings_received.add(r_object)
             gde.guideeinfo.rating=f_r
             gde.guideeinfo.save()
             
 
     else:
-        Q=Question.objects.get(fd=fd,guide=usr,guidee=gde,ques=ques)
         Q.status=1
         Q.save()
         print(Q)
     rvws=gde.guideeinfo.rvws_received.all()[::-1]
-    return render(request,'gdeprofile.html',{'ques':ques,'gde':gde,'rvws':rvws})
+    return render(request,'gdeprofile.html',{'ques':Q,'gde':gde,'rvws':rvws, 'fd':fd})
     
 
 

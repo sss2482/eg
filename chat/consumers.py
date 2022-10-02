@@ -37,19 +37,13 @@ class ChatConsumer(WebsocketConsumer):
         overall_message=text_data_json['overall_message']
         receiver_txt=text_data_json['receiver']
         user_role=text_data_json['user_role']
+        room_name=text_data_json['room_name']
         usr=self.scope['user']
         usr=User.objects.get(username=(usr.username))
         receiver=User.objects.get(username=receiver_txt)
-        
-        mssg=message.objects.create(mssg=mssg_text,sender=usr,receiver=receiver)
+        rm=room.objects.get(room_name=room_name)
+        mssg=message.objects.create(mssg=mssg_text,sender=usr,receiver=receiver, rm= rm)
         sent_time=str(mssg.time_send)
-        if user_role=="guide":
-            rm=room.objects.get(room_name=str(usr)+"_"+str(receiver))
-        elif user_role=="guidee":
-            rm=room.objects.get(room_name=str(receiver)+"_"+str(usr))
-        
-        rm.messages.add(mssg)
-        rm.save()
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
@@ -60,6 +54,7 @@ class ChatConsumer(WebsocketConsumer):
                 'user_role':user_role,
                 'sent_time':sent_time,
                 'receiver':receiver_txt,
+                'room_name':room_name,
 
             }
         )
@@ -71,10 +66,12 @@ class ChatConsumer(WebsocketConsumer):
         sent_time=str(event['sent_time'])
         receiver_txt=str(event['receiver'])
         user_role=str(event['user_role'])
+        room_name=str(event['room_name'])
         usr=self.scope['user']
         usr=User.objects.get(username=(usr.username))
         receiver=User.objects.get(username=receiver_txt)
-        msgs=message.objects.filter(mssg=msg_str,sender=usr,receiver=receiver)
+        rm=room.objects.get(room_name=room_name)
+        msgs=message.objects.filter(mssg=msg_str,sender=usr,receiver=receiver,rm=rm)
         
         print(msgs)
         for mssg in msgs:

@@ -21,11 +21,11 @@
     {%endfor%}
     <h2>Guides messaged</h2>
     {% for rm in notseengderms %}
-    <a href="chat/{{rm.guide}}?requestfrom=guidee">{{rm.guide}}</a><br>
+    <a href="chat/{{rm.guide}}?requestfrom=guidee&fd_no={{rm.fd.no}}&ques_id={{rm.ques.id}}">{{rm.guide}}_{{rm.fd.name}}_{{rm.ques.ques}}</a><br>
     {%endfor%}
     <br>
     <div>
-        <a style="font-size:large ;" href="guidee/guidecontactlist" >Guides Contacted</a>
+        <a style="font-size:large ;" href="guidee/guidecontactlist" >Ongoing questions</a>
     </div>
     <br>
     <br>
