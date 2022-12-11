@@ -6,16 +6,8 @@
         <link rel="stylesheet" href="{% static 'stgdeprofile.css'%}">
         <title>
             {{gde}}'s profile</title>
-        <script>
-            function chat(){
-                gde=JSON.parse(document.getElementById('gde').textContent);
-                ques_id=JSON.parse(document.getElementById('ques_id').textContent);
-                fd_no=JSON.parse(document.getElementById('fd_no').textContent);
-                url="/chat/"+ gde+"?requestfrom=guide&fd_no="+fd_no+"&ques_id="+ques_id;
-                window.location.href=url;
-            }
-
-        </script>
+        
+        <script src="{%static 'jsgdeprofile.js'%}"></script>
     </head>
     <body>
         <div class="top">
@@ -80,8 +72,9 @@
                 {%csrf_token%}
                 </form>
             </div>
-            <button type="button" onclick=shrevs() >Show all reviews</button>
+            
         </div>
+        <button type="button" onclick=shrevs() >Show all reviews</button>
         <div id="rvs">
             {% for rvw in rvws %}
             <div class="revs revl">{{rvw.gd}}</div>
@@ -92,7 +85,6 @@
         {{ ques.ques|json_script:'ques' }}
         {{ ques.id|json_script:'ques_id' }}
         {{ fd.no|json_script:'fd_no' }}
-        
         
     </body>
 

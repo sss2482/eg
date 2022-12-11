@@ -63,17 +63,13 @@ def gdeprofile(request,field,guidee):
             gde.guideeinfo.save()
         elif 'rate' in request.POST:
             r=request.POST['rating']
-            print(r)
             for rating in gde.guideeinfo.ratings_received.all():
-                print('rating')
-                print(rating.gd == usr)
-                print('rating end')
                 if rating.gd == usr:
                     t='ch'
                     break
             else:
                 t='add'
-            print(t)
+
             gde_r_c=gde.guideeinfo.ratings_received.all().count()
             if t=='ch':
                 r_object=Rating.objects.get(gd=usr, gde=gde,status='gd_gde')

@@ -33,7 +33,7 @@ def info(request):
         if 'save' in rp:
             crtf=request.FILES['certificate']
             fd=fields.objects.get(name=rp['fd'])
-            ib=rp['issuedby']  
+            ib=rp['issuedby']
             c=Certificate(usr=usr,fd=fd,issuedby=ib,certificate=crtf)
             c.save()
             usr.guideinfo.certificates.add(c)
