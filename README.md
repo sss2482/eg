@@ -8,24 +8,25 @@ Follow these steps to set up and run the project on your local machine:
 
 1. **Clone the repository**:
    ```bash
-   # Clone the repository
    git clone <repository-url>
    cd <repository-directory>
-   
-   # Create a virtual environment
+   ```
+2. **Create a virtual enviroment**
+   ```bash
    python -m venv <venv_name>
    
    # Activate the virtual environment
    <venv_name>\Scripts\activate   # For Windows
    source <venv_name>/bin/activate  # For macOS/Linux
-   
-   # Install dependencies
+
+3. **Install dependencies**
+   ```bash
    pip install -r requirements.txt
-   
-   # Set up the database
+
+4. **Set up the database**
    py manage.py makemigrations
    py manage.py migrate
-   
-   # Run the server
+
+5. **Run the server**
    py manage.py runserver
    
