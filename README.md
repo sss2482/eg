@@ -8,25 +8,31 @@ Follow these steps to set up and run the project on your local machine:
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone [<repository-url>](https://github.com/sss2482/eg.git)
+   cd eg
    ```
 2. **Create a virtual enviroment**
    ```bash
    python -m venv <venv_name>
-   
-   # Activate the virtual environment
+   ```
+3. **Activate the virtual environment**
+   ```bash
    <venv_name>\Scripts\activate   # For Windows
    source <venv_name>/bin/activate  # For macOS/Linux
+   ```
 
-3. **Install dependencies**
+5. **Install dependencies**
    ```bash
    pip install -r requirements.txt
+   ```
 
-4. **Set up the database**
+6. **Set up the database**
+   ```bash  
    py manage.py makemigrations
    py manage.py migrate
+   ```
 
-5. **Run the server**
+7. **Run the server**
+   ```bash
    py manage.py runserver
-   
+   ```
